@@ -41,7 +41,11 @@ const canonical = new URL(Astro.url.pathname, SITE.url).href;
     */}
     <script
       is:inline
-      define:vars={{ storageKey: THEME_STORAGE_KEY, DARK: THEMES.dark, LIGHT: THEMES.light }}
+      define:vars={{
+        storageKey: THEME_STORAGE_KEY,
+        DARK: THEMES.dark,
+        LIGHT: THEMES.light,
+      }}
     >
       (() => {
         try {
