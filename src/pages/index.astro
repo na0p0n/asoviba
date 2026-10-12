@@ -1,23 +1,13 @@
 ---
-import "../styles/global.css";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { SITE } from "../config/site";
 ---
 
-<!doctype html>
-<html lang="ja">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="generator" content={Astro.generator} />
-    <title>asoviba</title>
-  </head>
-  <body class="min-h-dvh bg-white text-slate-900 antialiased">
-    <main class="mx-auto flex min-h-dvh max-w-2xl flex-col items-center justify-center gap-4 px-4 text-center">
-      <h1 class="text-3xl font-bold tracking-tight">asoviba</h1>
-      <p class="text-slate-600">
-        ブラウザで完結する小さなツールを少しずつ増やしていくサイトです。基盤構築中。
-      </p>
-    </main>
-  </body>
-</html>
+<BaseLayout title={SITE.name}>
+  <section class="flex flex-col items-center gap-4 py-12 text-center">
+    <h1 class="text-3xl font-bold tracking-tight">{SITE.name}</h1>
+    <p class="max-w-prose text-muted">
+      ブラウザで完結する小さなツールを少しずつ増やしていくサイトです。基盤構築中。
+    </p>
+  </section>
+</BaseLayout>

@@ -1,0 +1,69 @@
+---
+import "../styles/global.css";
+import Header from "../components/layout/Header.astro";
+import Footer from "../components/layout/Footer.astro";
+import { SITE } from "../config/site";
+import { THEME_STORAGE_KEY, THEMES } from "../lib/theme";
+
+interface Props {
+  /** ページタイトル。SITE.name と等しい場合はサイト名のみ、それ以外は "title | SITE.name" */
+  title: string;
+  /** メタディスクリプション。省略時は SITE.description */
+  description?: string;
+}
+
+const { title, description = SITE.description } = Astro.props;
+const pageTitle = title === SITE.name ? SITE.name : `${title} | ${SITE.name}`;
+const canonical = new URL(Astro.url.pathname, SITE.url).href;
+---
+
+<!doctype html>
+<html lang={SITE.locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary" />
+    {/*
+      FOUC防止: body描画前にテーマを適用する。
+      is:inline スクリプトはモジュールを import できない（そのままHTMLへ出力され即時実行される）ため、
+      定数は theme.ts から define:vars で注入し、文字列リテラルの重複を避ける。
+    */}
+    <script
+      is:inline
+      define:vars={{ storageKey: THEME_STORAGE_KEY, DARK: THEMES.dark, LIGHT: THEMES.light }}
+    >
+      (() => {
+        try {
+          const stored = localStorage.getItem(storageKey);
+          const theme =
+            stored === LIGHT || stored === DARK
+              ? stored
+              : matchMedia("(prefers-color-scheme: dark)").matches
+                ? DARK
+                : LIGHT;
+          document.documentElement.dataset.theme = theme;
+        } catch {
+          document.documentElement.dataset.theme = LIGHT;
+        }
+      })();
+    </script>
+  </head>
+  <body class="flex min-h-dvh flex-col bg-bg text-fg antialiased">
+    <Header />
+    <main class="mx-auto w-full max-w-5xl flex-1 px-4 py-8">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>
