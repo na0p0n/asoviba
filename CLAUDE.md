@@ -1,0 +1,35 @@
+# CLAUDE.md — asoviba
+
+Claude Code がこのリポジトリで作業するときのルール。プロダクトの内容は `docs/` を正とする。
+
+- [企画書](docs/proposal.md) / [仕様書](docs/specification.md) / [ロードマップ](docs/roadmap.md)
+
+## 役割分担
+
+- **Claude が書き、人間（オーナー）がレビューして承認・マージする。**
+- Claude は GitHub のボットアカウント（`na0p0n-claude`）として PR を作成する。
+- **PR のマージは Claude が行わない。** 承認とマージはオーナーが GitHub 上で行う。
+- `main` への直接 push、force push はしない（Ruleset でも禁止されている）。
+
+## ブランチ・コミット・PR
+
+- 作業は必ず `main` から切ったブランチで行う。
+- ブランチ名: `feat/<内容>` `fix/<内容>` `docs/<内容>` `chore/<内容>`
+- コミット/PRタイトルは Conventional Commits（`feat:` `fix:` `docs:` `chore:` `test:` `refactor:`）。
+- **1 PR = 1 関心事。** ツール追加は 1 PR につき 1 ツールを基本とする。
+- PR 本文は `.github/pull_request_template.md` に沿って埋める。確認方法を必ず書く。
+- マージは Squash のみ。レビュー指摘は同じブランチへ追加コミットで対応する。
+
+## 開発方針
+
+- 仕様や方針を変える場合は、コードと一緒に `docs/` も更新する。
+- ロードマップのチェックボックスは、実装が完了したPRの中で更新する。
+- ツールは `features/<tool>/` に自己完結させる（詳細は仕様書のディレクトリ構成）。
+- ユーザーデータは原則ブラウザ内で処理し、外部に送信しない。
+- 依存パッケージの追加は理由を PR に書く。
+
+## 禁止事項
+
+- トークン・APIキー・`.env` をコミットしない。`.claude/settings.local.json` は個人設定でコミットしない。
+- 無関係なリファクタや整形を機能変更のPRに混ぜない。
+- GitHub の設定（Ruleset、Secrets、Collaborators など）を、依頼なしに変更しない。
