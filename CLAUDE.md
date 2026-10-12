@@ -60,6 +60,7 @@ Claude Code がこのリポジトリで作業するときのルール。プロ�
 - PR 本文は `.github/pull_request_template.md` に沿って埋める。確認方法を必ず書く。
 - 「変更内容」は、実装系のファイルは「何を変更したか」を簡潔に、テスト系のファイルは追加したファイルを列記する（既存テストを変更した場合はどんなテストを追加・変更したかを簡潔に）。
 - レビュー指摘は同じブランチへ追加コミットで対応する。
+- PR 作成後、レビュアーに `na0p0n` を指定する。`gh pr edit --add-reviewer` は `read:org` 権限が必要でボットトークン（`repo` のみ）では失敗するため、REST API を使う: `gh api -X POST repos/na0p0n/asoviba/pulls/<番号>/requested_reviewers -f "reviewers[]=na0p0n"`
 
 ## 開発方針
 
