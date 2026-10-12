@@ -10,6 +10,11 @@ dist/
 .env
 .env.*
 !.env.example
+.dev.vars
+.dev.vars.*
+
+# cloudflare / wrangler generated types
+worker-configuration.d.ts
 
 # logs
 *.log
