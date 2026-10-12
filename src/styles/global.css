@@ -1,1 +1,39 @@
 @import "tailwindcss";
+
+/* クラス戦略: <html data-theme="dark"> のとき dark: を有効化する */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* 意味ベースの配色トークン（ライト = 既定） */
+:root {
+  color-scheme: light;
+  --bg: #ffffff;
+  --fg: #0f172a;
+  --muted: #64748b;
+  --card: #f8fafc;
+  --border: #e2e8f0;
+  --accent: #4f46e5;
+  --accent-fg: #ffffff;
+}
+
+/* ダーク（トークンを差し替えるだけ） */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0b1120;
+  --fg: #e2e8f0;
+  --muted: #94a3b8;
+  --card: #111a2e;
+  --border: #1e293b;
+  --accent: #818cf8;
+  --accent-fg: #0b1120;
+}
+
+/* Tailwind のカラートークンへ接続（inline = 値ではなく var 参照を出力し、実行時に追従させる） */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-card: var(--card);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-fg: var(--accent-fg);
+}
