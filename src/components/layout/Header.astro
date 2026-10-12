@@ -47,13 +47,15 @@ import { SITE } from "../../config/site";
 </header>
 
 <script>
+  import { THEME_STORAGE_KEY, nextTheme } from "../../lib/theme";
+
   const btn = document.getElementById("theme-toggle");
   btn?.addEventListener("click", () => {
     const el = document.documentElement;
-    const next = el.dataset.theme === "dark" ? "light" : "dark";
+    const next = nextTheme(el.dataset.theme);
     el.dataset.theme = next;
     try {
-      localStorage.setItem("theme", next);
+      localStorage.setItem(THEME_STORAGE_KEY, next);
     } catch {
       /* localStorage が使えない環境では保存しない */
     }
