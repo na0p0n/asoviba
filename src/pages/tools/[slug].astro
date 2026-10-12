@@ -1,0 +1,31 @@
+---
+import type { GetStaticPaths } from "astro";
+import ToolLayout from "../../layouts/ToolLayout.astro";
+import { tools, getTool } from "../../registry/tools";
+import JsonFormatterTool from "../../features/json-formatter/Tool.astro";
+
+export const getStaticPaths = (() => {
+  return tools.map((tool) => ({ params: { slug: tool.slug } }));
+}) satisfies GetStaticPaths;
+
+/**
+ * ToolMeta.component の識別子 → ツールUIの Astro ラッパー。
+ * ラッパー内で React Island を client:visible で水和する。
+ * ツール追加時はここに1行追加する。
+ */
+const toolComponents: Record<string, typeof JsonFormatterTool> = {
+  "json-formatter": JsonFormatterTool,
+};
+
+const { slug } = Astro.params;
+const tool = getTool(slug);
+if (!tool) {
+  return Astro.redirect("/404");
+}
+
+const Tool = toolComponents[tool.component];
+---
+
+<ToolLayout tool={tool}>
+  {Tool ? <Tool /> : <p class="text-muted">このツールは準備中です。</p>}
+</ToolLayout>
