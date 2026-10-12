@@ -1,0 +1,8 @@
+dist/
+.astro/
+node_modules/
+.wrangler/
+package-lock.json
+
+# Markdown（文書は手書きの体裁を尊重し、整形対象外。空白はEditorConfigで担保）
+*.md
