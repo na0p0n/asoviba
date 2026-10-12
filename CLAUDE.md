@@ -13,12 +13,34 @@ Claude Code がこのリポジトリで作業するときのルール。プロ�
 
 ## ブランチ・コミット・PR
 
-- 作業は必ず `main` から切ったブランチで行う。
-- ブランチ名: `feat/<内容>` `fix/<内容>` `docs/<内容>` `chore/<内容>`
+### ブランチ命名
+
+`feature/<内容>` `fix/<内容>` `docs/<内容>` `chore/<内容>` `release/v<semver>` `hotfix/<内容>`
+
+（`feat/` は使わない。コミットの type としての `feat:` は Conventional Commits の規約としてそのまま使う。）
+
+### ブランチ運用
+
+初回リリースまでと、リリース後で運用が異なる。
+
+| | 初回リリースまで（現在） | リリース後 |
+|---|---|---|
+| 作業ブランチの起点 | `main` | `develop` |
+| PRの向き先 | `main` | `develop` |
+| マージ方法 | Squash | feature → `develop` は Squash |
+| リリース | — | `develop` から `release/vX.Y.Z` を切り、`main` 向きにPR。マージ方法は **Merge commit**。マージ後に `vX.Y.Z` タグを付ける |
+| 緊急修正 | — | `main` から `hotfix/<内容>` を切って `main` へ。**マージ後、`main` を `develop` へバックマージする** |
+
+- `release/*` ではバグ修正・バージョン更新・CHANGELOG 以外の変更をしない。
+- hotfix をマージしたら、バックマージのPR（`main` → `develop`）が必要か常に確認し、必要なら作成する。
+- リリース後への切り替えは、`develop` の作成・Ruleset・デフォルトブランチの変更を済ませたうえで、オーナーの指示で行う。それまでは `main` から切る。
+
+### コミット・PR
+
 - コミット/PRタイトルは Conventional Commits（`feat:` `fix:` `docs:` `chore:` `test:` `refactor:`）。
 - **1 PR = 1 関心事。** ツール追加は 1 PR につき 1 ツールを基本とする。
 - PR 本文は `.github/pull_request_template.md` に沿って埋める。確認方法を必ず書く。
-- マージは Squash のみ。レビュー指摘は同じブランチへ追加コミットで対応する。
+- レビュー指摘は同じブランチへ追加コミットで対応する。
 
 ## 開発方針
 
