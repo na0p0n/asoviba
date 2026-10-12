@@ -7,9 +7,16 @@ Claude Code がこのリポジトリで作業するときのルール。プロ�
 ## 役割分担
 
 - **Claude が書き、人間（オーナー）がレビューして承認・マージする。**
-- Claude は GitHub のボットアカウント（`na0p0n-claude`）として PR を作成する。
-- **PR のマージは Claude が行わない。** 承認とマージはオーナーが GitHub 上で行う。
-- `main` への直接 push、force push はしない（Ruleset でも禁止されている）。
+- Claude は GitHub のボットアカウント（`na0p0n-claude`）として動く。
+
+| 担当 | 作業 |
+|---|---|
+| **Claude** | ブランチ作成、実装、PRの作成、**オーナーのコメントへの対応**（修正コミットの push、返信）、タグの作成、GitHub Release の作成 |
+| **オーナー** | PRのレビュー・承認・**マージ**（すべてのPR。release PR、hotfix、バックマージを含む） |
+
+- **PR のマージは Claude が一切行わない。** 承認済み・CIグリーンでも、`gh pr merge`、auto-merge、API 経由のマージはしない（`.claude/settings.json` でも拒否している）。
+- レビューコメントのスレッドは、Claude が返信・修正をしても **resolve しない**。解決の判断はオーナーが行う。
+- `main` / `develop` への直接 push、force push はしない（Ruleset でも禁止されている）。
 
 ## ブランチ・コミット・PR
 
@@ -34,6 +41,16 @@ Claude Code がこのリポジトリで作業するときのルール。プロ�
 - `release/*` ではバグ修正・バージョン更新・CHANGELOG 以外の変更をしない。
 - hotfix をマージしたら、バックマージのPR（`main` → `develop`）が必要か常に確認し、必要なら作成する。
 - リリース後への切り替えは、`develop` の作成・Ruleset・デフォルトブランチの変更を済ませたうえで、オーナーの指示で行う。それまでは `main` から切る。
+
+### タグ・リリース（Claude の担当）
+
+オーナーが release PR（または hotfix PR）を `main` にマージし、リリース作業を依頼したら、次の手順で行う。
+
+1. `main` に該当のマージコミットが存在し、CIが通っていることを確認する（未マージなら実施しない）。
+2. バージョン（`vMAJOR.MINOR.PATCH`）が `release/vX.Y.Z` / CHANGELOG と一致していることを確認する。
+3. `main` のマージコミットに注釈付きタグ `vX.Y.Z` を作成して push する。既存タグは上書きしない。
+4. `gh release create vX.Y.Z --verify-tag` で GitHub Release を作成する。本文は CHANGELOG の該当節を使う。
+5. hotfix の場合は、`main` → `develop` のバックマージPRが必要か確認し、必要ならPRを作成してオーナーに知らせる（マージはオーナー）。
 
 ### コミット・PR
 
