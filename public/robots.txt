@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://asoviba.pages.dev/sitemap-index.xml
