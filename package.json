@@ -28,7 +28,7 @@
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
     "tailwindcss": "^4.3.3",
-    "wrangler": "^4.149.0"
+    "wrangler": "^4.154.0"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
